@@ -23,7 +23,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Run tests
         run: |
-          echo "${{ secrets.DIGITALOCEAN_TOKEN }}" > .dns-config.ini
+          echo "dns_digitalocean_token = ${{ secrets.DIGITALOCEAN_TOKEN }}" > .dns-config.ini
           docker-compose -f docker-compose.test.yml --exit-code-from certbot-dns up
         env:
           domain: ${{ secrets.TEST_DOMAIN }}

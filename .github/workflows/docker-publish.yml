@@ -10,9 +10,9 @@ on:
     # Publish `v1.2.3` tags as releases.
     tags:
       - v*
-  schecule:
-    # generate the cert every other month
-    - cron: '59 23  1 */2 *'
+  schedule:
+    # generate the cert every 2 wks
+    - cron: '59 23 1,15 * *'
 
 env:
   IMAGE_NAME: image

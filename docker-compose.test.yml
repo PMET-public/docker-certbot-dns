@@ -5,7 +5,7 @@ services:
       context: .
     volumes:
       - ".dns-config.ini:/.dns-config.ini"
-      - "${dest_dir:-.}:/etc/letsencrypt/archive"
+      - "${dest_dir:-./certs}:/etc/letsencrypt/archive"
     command: "
       --dns-digitalocean \
       --dns-digitalocean-credentials /.dns-config.ini \

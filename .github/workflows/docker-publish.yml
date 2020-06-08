@@ -30,6 +30,9 @@ jobs:
           docker-compose -f docker-compose.test.yml up --exit-code-from certbot-dns
         env:
           domain: ${{ secrets.TEST_DOMAIN }}
+      - uses: actions/upload-artifact@v2
+        with:
+          path: certs
 
   # Push image to GitHub Packages.
   # See also https://docs.docker.com/docker-hub/builds/

@@ -24,7 +24,7 @@ jobs:
       - name: Run tests
         run: |
           echo "${{ secrets.DIGITALOCEAN_TOKEN }}" > .dns-config.ini
-          docker-compose -f docker-compose.test.yml up
+          docker-compose -f docker-compose.test.yml --exit-code-from certbot-dns up
         env:
           domain: ${{ secrets.TEST_DOMAIN }}
 

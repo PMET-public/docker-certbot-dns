@@ -24,10 +24,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Set subdomain
+        run: |
+          echo "domain='gh-run-$GITHUB_RUN_NUMBER.${{ secrets.TEST_DOMAIN }}'" > .env
+      - name: Override subdomain
+        if: ${{ github.event_name == 'schedule' }}
+        run: |
+          echo "domain='*.${{ secrets.TEST_DOMAIN }}'" > .env
       - name: Run tests
         run: |
           echo "dns_digitalocean_token = ${{ secrets.DIGITALOCEAN_TOKEN }}" > .dns-config.ini
-          export domain="gh-run-$GITHUB_RUN_NUMBER.${{ secrets.TEST_DOMAIN }}"
           docker-compose -f docker-compose.test.yml up --exit-code-from certbot-dns
           sudo chmod -R a+r certs
       - uses: actions/upload-artifact@v2

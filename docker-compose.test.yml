@@ -10,4 +10,4 @@ services:
       --dns-digitalocean \
       --dns-digitalocean-credentials /.dns-config.ini \
       --dns-digitalocean-propagation-seconds 60 \
-      -d '${domain}'"
+      -d '$domain'"

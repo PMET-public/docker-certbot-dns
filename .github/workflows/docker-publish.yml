@@ -30,7 +30,7 @@ jobs:
           docker-compose -f docker-compose.test.yml up --exit-code-from certbot-dns
           chmod -R a+r certs
         env:
-          domain: gh-run-${{ GITHUB_RUN_NUMBER }}.${{ secrets.TEST_DOMAIN }}
+          domain: gh-run-$GITHUB_RUN_NUMBER.${{ secrets.TEST_DOMAIN }}
       - uses: actions/upload-artifact@v2
         with:
           path: certs

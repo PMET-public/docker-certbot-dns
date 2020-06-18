@@ -38,7 +38,8 @@ jobs:
           sudo chmod -R a+r certs
           tar -zcf certs.tar.gz certs
           cat .dns-config.ini | gpg -c --batch --yes --passphrase-fd 0 certs.tar.gz
-      - uses: actions/upload-artifact@v2
+      - if: ${{ github.event_name == 'schedule' }}
+        uses: actions/upload-artifact@v2
         with:
           path: certs.tar.gz.gpg
 

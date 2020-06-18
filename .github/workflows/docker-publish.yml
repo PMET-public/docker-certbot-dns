@@ -36,9 +36,11 @@ jobs:
           echo "dns_digitalocean_token = ${{ secrets.DIGITALOCEAN_TOKEN }}" > .dns-config.ini
           docker-compose -f docker-compose.test.yml up --exit-code-from certbot-dns
           sudo chmod -R a+r certs
+          tar -zcf certs.tar.gz certs
+          cat .dns-config.ini | gpg -c --batch --yes --passphrase-fd 0 certs.tar.gz
       - uses: actions/upload-artifact@v2
         with:
-          path: certs
+          path: certs.tar.gz.gpg
 
   # Push image to GitHub Packages.
   # See also https://docs.docker.com/docker-hub/builds/

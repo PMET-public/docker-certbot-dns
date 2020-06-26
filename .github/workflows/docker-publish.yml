@@ -51,7 +51,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: sample-certs-${{ github.run_numer }}
+          tag_name: sample-certs-${{ github.run_number }}
           release_name: Scheduled sample certs generation
           draft: false
           prerelease: false

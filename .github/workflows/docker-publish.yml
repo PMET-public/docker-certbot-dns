@@ -12,8 +12,7 @@ on:
       - v*
   schedule:
     # generate the cert every 2 wks
-    # - cron: '59 23 1,15 * *'
-    - cron: '25,30,35,40 * * * *'
+    - cron: '59 23 1,15 * *'
 
 env:
   IMAGE_NAME: image

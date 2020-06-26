@@ -50,8 +50,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
+          tag_name: sample-certs
+          release_name: Scheduled sample certs generation
           draft: false
           prerelease: false
       - name: Upload Release Asset

@@ -6,7 +6,7 @@ RUN pip3 install \
   certbot-dns-digitalocean \
   certbot-dns-dnsimple \
   certbot-dns-dnsmadeeasy \
-  # certbot-dns-google \
+  certbot-dns-google \
   certbot-dns-linode \
   certbot-dns-luadns \
   certbot-dns-nsone \

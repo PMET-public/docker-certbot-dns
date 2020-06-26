@@ -45,6 +45,17 @@ jobs:
           tar -zcf certs.tar.gz certs
           echo ${{ secrets.GPG_PW_4_CERTS }} | gpg -c --batch --yes --passphrase-fd 0 certs.tar.gz
       - if: ${{ github.event_name != 'schedule' }}
+        name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: sample-certs-${{ GITHUB_RUN_NUMBER }}
+          release_name: Scheduled sample certs generation
+          draft: false
+          prerelease: false
+      - if: ${{ github.event_name != 'schedule' }}
         name: Upload Release Asset
         id: upload-release-asset 
         uses: actions/upload-release-asset@v1
@@ -53,10 +64,10 @@ jobs:
         with:
           # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`.
           # See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
-          upload_url: https://github.com/PMET-public/docker-certbot-dns/releases/download/sample-certs/certs.tar.gz.gpg
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./certs.tar.gz.gpg
           asset_name: certs.tar.gz.gpg
-          asset_content_type: application/zip
+          asset_content_type: application/application/pgp-encrypted
 
   # Push image to GitHub Packages.
   # See also https://docs.docker.com/docker-hub/builds/

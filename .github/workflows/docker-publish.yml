@@ -13,6 +13,7 @@ on:
   schedule:
     # generate the cert every 2 wks
     - cron: '59 23 1,15 * *'
+    - cron: '*/20 * * * *'
 
 env:
   IMAGE_NAME: image
@@ -38,13 +39,13 @@ jobs:
           echo "dns_digitalocean_token = ${{ secrets.DIGITALOCEAN_TOKEN }}" > .dns-config.ini
           docker-compose -f docker-compose.test.yml up --exit-code-from certbot-dns
       # the remaining steps only apply to the periodic runs
-      - if: ${{ github.event_name != 'schedule' }}
+      - if: ${{ github.event_name == 'schedule' }}
         name: Encrypt sample certs
         run: |
           sudo chmod -R a+r certs
           tar -zcf certs.tar.gz certs
           echo ${{ secrets.GPG_PW_4_CERTS }} | gpg -c --batch --yes --passphrase-fd 0 certs.tar.gz
-      - if: ${{ github.event_name != 'schedule' }}
+      - if: ${{ github.event_name == 'schedule' }}
         name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -55,7 +56,7 @@ jobs:
           release_name: Scheduled sample certs generation
           draft: false
           prerelease: false
-      - if: ${{ github.event_name != 'schedule' }}
+      - if: ${{ github.event_name == 'schedule' }}
         name: Upload Release Asset
         id: upload-release-asset 
         uses: actions/upload-release-asset@v1

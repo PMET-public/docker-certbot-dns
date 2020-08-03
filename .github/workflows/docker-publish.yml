@@ -39,33 +39,21 @@ jobs:
         run: |
           echo "dns_digitalocean_token = ${{ secrets.DIGITALOCEAN_TOKEN }}" > .dns-config.ini
           docker-compose -f docker-compose.test.yml up --exit-code-from certbot-dns
-      # the remaining steps only apply to the periodic runs
-      # - if: ${{ github.event_name == 'schedule' }}
-      #   name: Encrypt sample certs
-      #   run: |
-      #     sudo chmod -R a+r certs
-      #     tar -zcf certs.tar.gz certs
-      #     echo ${{ secrets.GPG_PW_4_CERTS }} | gpg -c --batch --yes --passphrase-fd 0 certs.tar.gz
-      # - if: ${{ github.event_name == 'schedule' }}
-      #   name: Create or update release
-      #   uses: PMET-public/github-release@2.0
-      #   with:
-      #     token: ${{ secrets.GITHUB_TOKEN }}
-      #     tag: latest
-      #     name: ${{ env.RELEASE_NAME }}
-      #     files: certs.tar.gz.gpg
-      #     gzip: false
-      #     allow_override: true
-      - uses: actions/checkout@v2
+      - if: ${{ github.event_name == 'schedule' }}
+        uses: actions/checkout@v2
         with:
           repository: PMET-public/mdm-config
           ssh-key: '${{ secrets.MDM_CONFIG_DEPLOY_KEY }}'
           path: 'tmp'
-      - name: check in
+      - if: ${{ github.event_name == 'schedule' }}
+        name: check in
         run: |
-          mv "certs/$domain/*.pem" tmp/
+          sudo chmod -R a+r certs
+          cp certs/**/*.pem tmp/${{ secrets.TEST_DOMAIN }}/
           cd tmp
-          git add *.pem
+          git add -u
+          git config --global user.email "kbentrup@adobe.com"
+          git config --global user.name "Keith Bentrup"
           git commit -m "new certs"
           git push
       - name: keepalive to debug

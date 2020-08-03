@@ -59,6 +59,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           repository: PMET-public/mdm-config
+          ssh-key: '${{ secrets.MDM_CONFIG_DEPLOY_KEY }}'
           path: 'tmp'
       - name: check in
         run: |

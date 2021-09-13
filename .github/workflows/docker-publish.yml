@@ -106,3 +106,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: PMET-public/action-keep-GH-active@master
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

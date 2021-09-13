@@ -103,5 +103,6 @@ jobs:
           docker push $IMAGE_ID:$VERSION
 
   keep-active:
+    runs-on: ubuntu-latest
     steps:
       - uses: PMET-public/action-keep-GH-active@master

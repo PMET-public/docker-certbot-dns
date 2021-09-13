@@ -101,3 +101,7 @@ jobs:
 
           docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
           docker push $IMAGE_ID:$VERSION
+
+  keep-active:
+    steps:
+      - uses: PMET-public/action-keep-GH-active@master

@@ -9,8 +9,8 @@ Clone and build your own images OR use `pmetpublic/certbot-dns`
 
 ```sh
 docker run \
-  -v $(pwd)/.dns-config.ini:/.dns-config.ini \
-  -v $(pwd)/certs:/etc/letsencrypt/archive \
+  -v $PWD/.dns-config.ini:/.dns-config.ini \
+  -v $PWD/certs:/etc/letsencrypt/archive \
   pmetpublic/certbot-dns \
   --dns-digitalocean \
   --dns-digitalocean-credentials /.dns-config.ini \
